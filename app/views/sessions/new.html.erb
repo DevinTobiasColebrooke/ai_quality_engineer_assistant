@@ -1,0 +1,53 @@
+<div class="container mx-auto px-4 py-8 max-w-lg">
+  <h1 class="text-3xl font-bold text-gray-800 mb-6">Start New QA Session</h1>
+
+  <div class="bg-white shadow rounded-lg p-6">
+    <%= form_with(model: @session, class: "space-y-6") do |f| %>
+      <% if @session.errors.any? %>
+        <div class="bg-red-50 border-l-4 border-red-500 p-4 mb-4">
+          <div class="flex">
+            <div class="ml-3">
+              <h3 class="text-sm font-medium text-red-800">
+                <%= pluralize(@session.errors.count, "error") %> prohibited this session from being saved:
+              </h3>
+              <div class="mt-2 text-sm text-red-700">
+                <ul class="list-disc pl-5 space-y-1">
+                  <% @session.errors.full_messages.each do |message| %>
+                    <li><%= message %></li>
+                  <% end %>
+                </ul>
+              </div>
+            </div>
+          </div>
+        </div>
+      <% end %>
+
+      <div>
+        <%= f.label :name, "Session Name", class: "block text-sm font-medium text-gray-700" %>
+        <div class="mt-1">
+          <%= f.text_field :name, class: "shadow-sm focus:ring-blue-500 focus:border-blue-500 block w-full sm:text-sm border-gray-300 rounded-md", placeholder: "e.g., Checkout Flow Test" %>
+        </div>
+      </div>
+
+      <div>
+        <%= f.label :url, "Target URL", class: "block text-sm font-medium text-gray-700" %>
+        <div class="mt-1">
+          <%= f.text_field :url, class: "shadow-sm focus:ring-blue-500 focus:border-blue-500 block w-full sm:text-sm border-gray-300 rounded-md", placeholder: "https://example.com" %>
+        </div>
+      </div>
+
+      <div>
+        <%= f.label :agent, "Select AI Agent", class: "block text-sm font-medium text-gray-700" %>
+        <div class="mt-1">
+          <%= f.select :agent, Session::AGENTS, {}, class: "mt-1 block w-full pl-3 pr-10 py-2 text-base border-gray-300 focus:outline-none focus:ring-blue-500 focus:border-blue-500 sm:text-sm rounded-md" %>
+        </div>
+        <p class="mt-2 text-sm text-gray-500">Choose the AI assistant that will drive this testing session.</p>
+      </div>
+
+      <div class="pt-4 flex justify-end space-x-3">
+        <%= link_to "Cancel", sessions_path, class: "bg-white py-2 px-4 border border-gray-300 rounded-md shadow-sm text-sm font-medium text-gray-700 hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500" %>
+        <%= f.submit "Create Session", class: "inline-flex justify-center py-2 px-4 border border-transparent shadow-sm text-sm font-medium rounded-md text-white bg-blue-600 hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500" %>
+      </div>
+    <% end %>
+  </div>
+</div>

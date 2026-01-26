@@ -1,0 +1,44 @@
+<div class="container mx-auto px-4 py-8">
+  <div class="flex justify-between items-center mb-6">
+    <h1 class="text-3xl font-bold text-gray-800">QA Sessions</h1>
+    <%= link_to "New Session", new_session_path, class: "bg-blue-600 text-white px-4 py-2 rounded hover:bg-blue-700 transition" %>
+  </div>
+
+  <% if @sessions.any? %>
+    <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+      <% @sessions.each do |session| %>
+        <div class="bg-white rounded-lg shadow p-6 border border-gray-200">
+          <div class="flex justify-between items-start mb-4">
+            <h2 class="text-xl font-semibold text-gray-900"><%= session.name %></h2>
+            <span class="px-2 py-1 text-xs font-semibold rounded-full 
+              <%= session.status == 'active' ? 'bg-green-100 text-green-800' : 'bg-gray-100 text-gray-800' %>">
+              <%= session.status.capitalize %>
+            </span>
+          </div>
+          
+          <div class="space-y-2 mb-4">
+            <p class="text-gray-600 text-sm">
+              <span class="font-medium">Agent:</span> <%= session.agent %>
+            </p>
+            <p class="text-gray-600 text-sm truncate">
+              <span class="font-medium">URL:</span> <%= session.url %>
+            </p>
+          </div>
+
+          <div class="flex justify-between items-center mt-4 pt-4 border-t border-gray-100">
+            <%= link_to "Open Interface", session_path(session), class: "text-blue-600 hover:text-blue-800 font-medium text-sm" %>
+            <%= button_to "End Session", session_path(session), method: :delete, class: "text-red-600 hover:text-red-800 text-sm", form: { data: { turbo_confirm: "Are you sure?" } } %>
+          </div>
+        </div>
+      <% end %>
+    </div>
+  <% else %>
+    <div class="text-center py-12 bg-gray-50 rounded-lg border-2 border-dashed border-gray-300">
+      <h3 class="mt-2 text-sm font-semibold text-gray-900">No active sessions</h3>
+      <p class="mt-1 text-sm text-gray-500">Get started by creating a new QA session.</p>
+      <div class="mt-6">
+        <%= link_to "New Session", new_session_path, class: "inline-flex items-center px-4 py-2 border border-transparent shadow-sm text-sm font-medium rounded-md text-white bg-blue-600 hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500" %>
+      </div>
+    </div>
+  <% end %>
+</div>
